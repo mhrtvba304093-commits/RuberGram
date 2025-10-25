@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AresGram - Мессенджер</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="messenger-container">
+        <!-- Сайдбар -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="header-left">
+                    <div class="hamburger-menu" onclick="toggleSlideMenu()">
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <h1>AresGram</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar" onclick="showMyProfile()">U</div>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-box" id="searchInput" placeholder="@username, имя или телефон...">
+            </div>
+
+            <div class="chats-controls">
+                <button class="control-button" onclick="showCreateChatModal()">+ Создать чат</button>
+                <button class="control-button" onclick="refreshUsers()">🔄 Обновить</button>
+            </div>
+
+            <div class="chats-list" id="chatsList">
+                <!-- Чаты будут загружаться здесь -->
+            </div>
+        </div>
+
+        <!-- Основная область чата -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="user-avatar" id="currentChatAvatar">?</div>
+                    <div>
+                        <h3 id="currentChatName">Выберите чат</h3>
+                        <span class="status" id="chatStatus">offline</span>
+                    </div>
+                </div>
+                <div>
+                    <button class="logout-btn" id="leaveChatBtn" onclick="leaveChat()" style="display: none;">Покинуть чат</button>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="message received">
+                    Добро пожаловать в AresGram! Найдите пользователя чтобы начать общение.
+                </div>
+            </div>
+            <!-- Обновите блок с кнопками отправки -->
+            <!-- Обновите блок с кнопками отправки -->
+            <div class="message-input-container">
+                <input type="text" class="message-input" id="messageInput" placeholder="Введите сообщение..." disabled>
+                <button class="send-button" id="sendButton" onclick="sendMessage()" disabled>Отправить</button>
+
+                <!-- Новые кнопки уведомлений -->
+                <button class="send-button" id="enableNotificationsBtn" onclick="requestNotificationPermission()" style="background: #2d9cdb;">Включить уведомления</button>
+                <button class="send-button" id="testNotificationBtn" onclick="testSimpleNotification()" style="background: #27ae60;">Тест Уведом.</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Меню выезжающее с левого бока экрана -->
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-menu-content">
+            <div class="menu-header-sidebar">
+                <button class="close-sidebar-menu-btn" onclick="closeSidebarMenu()">✕</button>
+            </div>
+            
+            <div class="sidebar-profile-section">
+                <div class="sidebar-profile-avatar" id="sidebarUserAvatar" onclick="showMyProfile()">U</div>
+                <div class="sidebar-profile-info">
+                    <div class="sidebar-profile-name" id="sidebarUsername">Пользователь</div>
+                    <div class="sidebar-profile-email" id="sidebarUserEmail">email@example.com</div>
+                </div>
+            </div>
+
+            <div class="sidebar-menu-options">
+                <div class="sidebar-option" onclick="showMyProfile()">
+                    <div class="sidebar-option-icon">👤</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Мой профиль</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-option" onclick="showProfileSettings()">
+                    <div class="sidebar-option-icon">⚙️</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Настройки профиля</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-option" onclick="showAppSettings()">
+                    <div class="sidebar-option-icon">🔧</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Настройки приложения</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-option" onclick="showMyChats()">
+                    <div class="sidebar-option-icon">💬</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Мои чаты</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-option" onclick="showAppearanceSettings()">
+                    <div class="sidebar-option-icon">🎨</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Внешний вид</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-option" onclick="showNotificationSettings()">
+                    <div class="sidebar-option-icon">🔔</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Уведомления</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-option sidebar-logout" onclick="logout()">
+                    <div class="sidebar-option-icon">🚪</div>
+                    <div class="sidebar-option-text">
+                        <div class="sidebar-option-title">Выйти</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно создания чата -->
+    <div class="modal" id="createChatModal">
+        <div class="modal-content">
+            <h2>Создать групповой чат</h2>
+            <input type="text" class="modal-input" id="newChatName" placeholder="Название чата">
+            <div class="modal-buttons">
+                <button class="modal-btn secondary" onclick="hideCreateChatModal()">Отмена</button>
+                <button class="modal-btn primary" onclick="createGroupChat()">Создать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Контейнер для toast-уведомлений -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

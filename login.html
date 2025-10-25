@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AresGram - Вход</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-container h1 {
+            text-align: center;
+            color: #e74c3c;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #e74c3c;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background 0.3s;
+        }
+        
+        .login-button:hover {
+            background: #c0392b;
+        }
+        
+        .signup-button {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .signup-button:hover {
+            background: #2980b9;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #ffeaea;
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #eaffea;
+            display: none;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            border-bottom-color: #e74c3c;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>AresGram</h1>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('login')">Вход</div>
+            <div class="tab" onclick="switchTab('signup')">Регистрация</div>
+        </div>
+
+        <div id="loginForm">
+            <div class="input-group">
+                <input type="email" id="loginEmail" placeholder="Email" value="test@example.com">
+            </div>
+            <div class="input-group">
+                <input type="password" id="loginPassword" placeholder="Пароль" value="123456">
+            </div>
+            <button class="login-button" onclick="login()">Войти</button>
+        </div>
+
+        <div id="signupForm" style="display: none;">
+            <div class="input-group">
+                <input type="text" id="signupUsername" placeholder="Имя пользователя">
+            </div>
+            <div class="input-group">
+                <input type="email" id="signupEmail" placeholder="Email">
+            </div>
+            <div class="input-group">
+                <input type="password" id="signupPassword" placeholder="Пароль">
+            </div>
+            <button class="signup-button" onclick="signup()">Зарегистрироваться</button>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://kzyhpkspychlgtegavyb.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6eWhwa3NweWNobGd0ZWdhdnliIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzQ4MzIsImV4cCI6MjA3NjExMDgzMn0.8aVlQAeAejyLtt1IAKw-dWt2R2XFSv8XAI9nVhAclaA';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        });
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+            document.querySelector(`.tab:nth-child(${tab === 'login' ? 1 : 2})`).classList.add('active');
+            
+            clearMessages();
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorElement = document.getElementById('errorMessage');
+
+            clearMessages();
+
+            if (!email || !password) {
+                errorElement.textContent = 'Заполните все поля';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            const button = document.querySelector('#loginForm .login-button');
+            button.textContent = 'Вход...';
+            button.disabled = true;
+
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    errorElement.textContent = 'Ошибка входа: ' + error.message;
+                    errorElement.style.display = 'block';
+                } else {
+                    console.log('Успешный вход:', data);
+                    window.location.href = 'index.html';
+                }
+            } catch (err) {
+                errorElement.textContent = 'Ошибка соединения';
+                errorElement.style.display = 'block';
+            } finally {
+                button.textContent = 'Войти';
+                button.disabled = false;
+            }
+        }
+
+
+        async function signup() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const errorElement = document.getElementById('errorMessage');
+            const successElement = document.getElementById('successMessage');
+
+            clearMessages();
+
+            if (!username || !email || !password) {
+                errorElement.textContent = 'Заполните все поля';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            if (password.length < 6) {
+                errorElement.textContent = 'Пароль должен быть не менее 6 символов';
+                errorElement.style.display = 'block';
+                return;
+            }
+
+            const button = document.querySelector('#signupForm .signup-button');
+            button.textContent = 'Регистрация...';
+            button.disabled = true;
+
+            try {
+                // Простая регистрация
+                const { data, error } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            username: username
+                        }
+                    }
+                });
+
+                if (error) {
+                    errorElement.textContent = 'Ошибка: ' + error.message;
+                    errorElement.style.display = 'block';
+                } else {
+                    successElement.textContent = 'Регистрация успешна! Можете войти.';
+                    successElement.style.display = 'block';
+                    
+                    // Автоматически заполняем форму входа
+                    setTimeout(() => {
+                        document.getElementById('loginEmail').value = email;
+                        switchTab('login');
+                    }, 2000);
+                }
+            } catch (err) {
+                errorElement.textContent = 'Ошибка соединения';
+                errorElement.style.display = 'block';
+            } finally {
+                button.textContent = 'Зарегистрироваться';
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

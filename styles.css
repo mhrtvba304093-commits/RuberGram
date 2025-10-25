@@ -1,0 +1,3388 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.messenger-container {
+    width: 95%;
+    max-width: 1400px;
+    height: 95vh;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    display: flex;
+    overflow: hidden;
+}
+
+/* Сайдбар */
+.sidebar {
+    width: 350px;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #34495e;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: #34495e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sidebar-header h1 {
+    font-size: 24px;
+    color: #e74c3c;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e74c3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+    transform: scale(1.1);
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Гамбургер-меню */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu:hover {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.1);
+}
+
+.bar {
+    width: 20px;
+    height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: transform 0.3s;
+}
+
+.search-container {
+    padding: 15px;
+    background: #34495e;
+}
+
+.search-box {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    background: #2c3e50;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-box:focus {
+    background: #3c5166;
+    transform: scale(1.02);
+}
+
+.search-box::placeholder {
+    color: #95a5a6;
+}
+
+.chats-controls {
+    padding: 10px 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.control-button {
+    flex: 1;
+    padding: 8px;
+    background: #34495e;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.control-button:hover {
+    background: #e74c3c;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.chats-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid #34495e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chat-item:hover {
+    background: #34495e;
+    transform: translateX(5px);
+}
+
+.chat-item.active {
+    background: #e74c3c;
+}
+
+.chat-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.chat-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.chat-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.chat-details {
+    flex: 1;
+}
+
+.chat-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.last-message {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Основная область чата */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    padding: 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat-header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.messages-container {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 12px 16px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.message.sent {
+    background: #e74c3c;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+}
+
+.message.received {
+    background: white;
+    color: #333;
+    border: 1px solid #e9ecef;
+    border-bottom-left-radius: 5px;
+}
+
+.message-time {
+    font-size: 10px;
+    margin-top: 5px;
+    opacity: 0.7;
+    text-align: right;
+}
+
+.message-input-container {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 10px;
+}
+
+.message-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 1px solid #e9ecef;
+    border-radius: 25px;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.message-input:focus {
+    border-color: #e74c3c;
+    transform: scale(1.02);
+}
+
+.send-button {
+    padding: 12px 25px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.send-button:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Меню выезжающее с левого бока экрана */
+.sidebar-menu {
+    position: fixed;
+    top: 20px;
+    left: -400px;
+    width: 380px;
+    height: calc(100vh - 40px);
+    z-index: 2000;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    border-radius: 0 20px 20px 0;
+}
+
+.sidebar-menu.active {
+    left: 0;
+    pointer-events: all;
+}
+
+.sidebar-menu-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-radius: 0 20px 20px 0;
+    box-shadow: 5px 0 30px rgba(0,0,0,0.3);
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-50px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+
+.sidebar-menu.active .sidebar-menu-content {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Заголовок меню */
+.menu-header-sidebar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.close-sidebar-menu-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.close-sidebar-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Профиль в меню */
+.sidebar-profile-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sidebar-profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 auto 15px;
+    box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sidebar-profile-avatar:hover {
+    transform: scale(1.05);
+}
+
+.sidebar-profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar-profile-name {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.sidebar-profile-email {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+/* Опции меню */
+.sidebar-menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-option:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(8px);
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+}
+
+.sidebar-option-icon {
+    font-size: 22px;
+    width: 30px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-option:hover .sidebar-option-icon {
+    transform: scale(1.2);
+}
+
+.sidebar-option-text {
+    flex: 1;
+}
+
+.sidebar-option-title {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.sidebar-logout {
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    margin-top: 10px;
+}
+
+.sidebar-logout:hover {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: rgba(231, 76, 60, 0.5);
+}
+
+/* Эффект волны при наведении */
+.sidebar-option::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.sidebar-option:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Модальные окна */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.modal-input:focus {
+    border-color: #e74c3c;
+    transform: scale(1.02);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.modal-btn.primary {
+    background: #e74c3c;
+    color: white;
+}
+
+.modal-btn.primary:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+.modal-btn.secondary {
+    background: #bdc3c7;
+    color: #2c3e50;
+}
+
+.modal-btn.secondary:hover {
+    background: #95a5a6;
+    transform: translateY(-2px);
+}
+
+/* Модальные оверлеи */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.closing {
+    animation: fadeOut 0.3s ease-out;
+}
+
+.modal-title {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+/* Системные сообщения */
+.message.system {
+    max-width: 80%;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.system-message {
+    background: #f8f9fa;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-style: italic;
+    font-size: 14px;
+    border: 1px solid #e9ecef;
+}
+
+/* Кнопка выхода из чата */
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Анимации */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Затемнение фона */
+.menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1999;
+    display: none;
+    backdrop-filter: blur(5px);
+}
+
+.menu-backdrop.active {
+    display: block;
+}
+
+/* Стили для списка пользователей в модалке */
+.user-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.user-list-item:hover {
+    background: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.user-avatar-small {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #e74c3c;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.user-avatar-small img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info-modal {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+.user-email {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .messenger-container {
+        width: 100%;
+        height: 100vh;
+        border-radius: 0;
+    }
+    
+    .sidebar {
+        width: 100%;
+    }
+    
+    .sidebar-menu {
+        width: 320px;
+        left: -320px;
+        top: 10px;
+        height: calc(100vh - 20px);
+    }
+    
+    .sidebar-menu.active {
+        left: 0;
+    }
+    
+    .sidebar-menu-content {
+        border-radius: 0 15px 15px 0;
+        padding: 25px 20px;
+    }
+    
+    .sidebar-profile-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+    }
+    
+    .sidebar-option {
+        padding: 16px 18px;
+    }
+    
+    .message {
+        max-width: 85%;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+}
+
+/* Скрытие скроллбара для Webkit браузеров */
+.chats-list::-webkit-scrollbar,
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chats-list::-webkit-scrollbar-track,
+.messages-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chats-list::-webkit-scrollbar-thumb,
+.messages-container::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+}
+
+.chats-list::-webkit-scrollbar-thumb:hover,
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+/* Плавные переходы для всех элементов */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Статус онлайн/офлайн */
+.status {
+    font-size: 12px;
+    color: #27ae60;
+    font-weight: normal;
+}
+
+.status.offline {
+    color: #95a5a6;
+}
+
+/* Улучшенные тени и эффекты */
+.chat-item {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.chat-item:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.control-button, .send-button {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.control-button:hover, .send-button:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Анимация загрузки */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Стили для пустых состояний */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.empty-state-text {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Улучшенные фокус-стили для доступности */
+button:focus,
+input:focus,
+.modal-btn:focus {
+    outline: 2px solid #e74c3c;
+    outline-offset: 2px;
+}
+
+/* Плавное появление элементов при загрузке */
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Эффект нажатия для кнопок */
+button:active {
+    transform: scale(0.95);
+}
+
+/* Градиентные границы для активных элементов */
+.chat-item.active {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
+}
+
+/* Кастомный скроллбар для Webkit */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Темная тема для скроллбара в сайдбаре */
+.sidebar ::-webkit-scrollbar-track {
+    background: #2c3e50;
+}
+
+.sidebar ::-webkit-scrollbar-thumb {
+    background: #34495e;
+}
+
+.sidebar ::-webkit-scrollbar-thumb:hover {
+    background: #3c5166;
+}
+
+/* Toast-уведомления */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+}
+
+.toast {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: toastSlideIn 0.3s ease-out;
+    border-left: 4px solid #e74c3c;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 350px;
+}
+
+.toast.success {
+    border-left-color: #27ae60;
+    background: #2c3e50;
+}
+
+.toast.error {
+    border-left-color: #e74c3c;
+    background: #2c3e50;
+}
+
+.toast.warning {
+    border-left-color: #f39c12;
+    background: #2c3e50;
+}
+
+.toast.info {
+    border-left-color: #3498db;
+    background: #2c3e50;
+}
+
+.toast-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.toast-close:hover {
+    color: white;
+    background: rgba(255,255,255,0.1);
+}
+
+/* Анимации для toast */
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toastSlideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.toast.hiding {
+    animation: toastSlideOut 0.3s ease-out forwards;
+}
+
+/* Анимация для меню */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .sidebar-menu {
+        width: 300px;
+        left: -300px;
+    }
+    
+    .sidebar-menu.active {
+        left: 0;
+    }
+    
+    .sidebar-menu-content {
+        border-radius: 0;
+        padding: 25px 20px;
+    }
+    
+    .sidebar-profile-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 24px;
+    }
+    
+    .sidebar-option {
+        padding: 16px 18px;
+    }
+    
+    .toast-container {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .toast {
+        max-width: none;
+    }
+}
+
+/* Стили для профиля с динамической аватаркой */
+.profile-scroll-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.profile-header {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic {
+    position: absolute;
+    bottom: -75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.profile-avatar-dynamic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic.collapsed {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    bottom: 20px;
+}
+
+.profile-avatar-dynamic.collapsed img {
+    border-radius: 50%;
+}
+
+.profile-content {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -30px;
+    padding: 100px 30px 30px 30px;
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+}
+
+.profile-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #e74c3c;
+}
+
+.profile-info-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.profile-info-value {
+    font-size: 16px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.profile-info-value.empty {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 25px 0;
+}
+
+.profile-stat-item {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.profile-stat-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.profile-stat-number {
+    font-weight: bold;
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.profile-stat-label {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Стили для поиска пользователей */
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover {
+    background: #34495e;
+    transform: translateX(5px);
+}
+
+.search-result-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.search-result-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.search-result-username {
+    font-size: 12px;
+    opacity: 0.8;
+    color: #3498db;
+}
+
+.search-result-phone {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* Стили для профиля другого пользователя */
+.other-user-profile .profile-header {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.other-user-profile .profile-info-item {
+    border-left-color: #3498db;
+}
+/* Стили для динамического аватара в профиле */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.profile-avatar-dynamic {
+    position: absolute;
+    bottom: -75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    height: 150px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.profile-avatar-dynamic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic.collapsed {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    bottom: 20px;
+    left: 20px;
+    transform: none;
+}
+
+.profile-avatar-dynamic.collapsed img {
+    border-radius: 50%;
+}
+
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -30px;
+    padding: 100px 15px 30px 15px;
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+}
+
+/* Вертикальное расположение информации */
+.profile-info-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #e74c3c;
+    transition: all 0.3s ease;
+}
+
+.profile-info-item:hover {
+    background: #e9ecef;
+    transform: translateX(3px);
+}
+
+.profile-info-label {
+    font-size: 12px;
+    color: #666;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-info-value {
+    font-size: 16px;
+    color: #2c3e50;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.profile-info-value.empty {
+    color: #95a5a6;
+    font-style: italic;
+}
+/* Горизонтальный скролл секций */
+.profile-horizontal-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0;
+    margin: 0 -15px 20px -15px;
+    padding: 0 15px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.profile-horizontal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.profile-section {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-right: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.profile-section.active {
+    opacity: 1;
+    transform: scale(1.02);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.section-header h4 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.section-count {
+    background: #e74c3c;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Стили для публикаций */
+.publication-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.publication-item:last-child {
+    border-bottom: none;
+}
+
+.publication-text {
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.publication-date {
+    font-size: 12px;
+    color: #95a5a6;
+}
+
+/* Стили для подарков */
+.gifts-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.gift-item {
+    width: 40px;
+    height: 40px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border: 2px solid #e9ecef;
+}
+
+/* Стили для достижений */
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.achievement-item:last-child {
+    border-bottom: none;
+}
+
+.achievement-icon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.achievement-title {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.achievement-desc {
+    font-size: 12px;
+    color: #95a5a6;
+}
+
+/* Стили для друзей */
+.friends-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.friend-item {
+    text-align: center;
+    padding: 10px;
+}
+
+.friend-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto 5px;
+}
+
+.friend-name {
+    font-size: 12px;
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.more-friends .friend-avatar {
+    background: #95a5a6;
+}
+
+/* Индикаторы секций */
+.section-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.indicator {
+    width: 8px;
+    height: 8px;
+    background: #bdc3c7;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: #e74c3c;
+    transform: scale(1.2);
+}
+
+/* Кнопка редактирования */
+.edit-profile-btn {
+    transition: all 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background: rgba(255,255,255,1) !important;
+    transform: scale(1.05);
+}
+/* Маленькая круглая аватарка в редактировании */
+.profile-avatar-small-edit {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    margin: 0 auto;
+    cursor: pointer;
+    position: relative;
+    border: 3px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Оверлей для загрузки аватарки */
+.avatar-upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.avatar-upload-overlay:hover {
+    opacity: 1;
+}
+
+.upload-icon {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+
+.upload-text {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* Кнопки закрыть и редактировать */
+.close-profile-btn {
+    transition: all 0.3s ease;
+}
+
+.close-profile-btn:hover {
+    background: rgba(255,255,255,1) !important;
+    transform: scale(1.1);
+}
+
+.edit-profile-btn {
+    transition: all 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background: rgba(255,255,255,1) !important;
+    transform: scale(1.05);
+}
+
+/* Исправление скролла профиля */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -30px;
+    padding: 100px 15px 30px 15px;
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+
+/* Убираем нижние кнопки из модальных окон */
+.modal-buttons[style*="background: white"] {
+    display: none;
+}
+/* Красивый фон на всю аватарку */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Обновляем стили для header чтобы фон был виден */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Делаем аватарку поверх фона */
+.profile-avatar-dynamic {
+    position: absolute;
+    bottom: -75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    height: 150px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.profile-avatar-dynamic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic.collapsed {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    bottom: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.profile-avatar-dynamic.collapsed img {
+    border-radius: 50%;
+}
+
+/* Обновляем стили для кнопок чтобы они были лучше видны на фоне */
+.edit-profile-btn, .close-profile-btn {
+    background: rgba(255,255,255,0.95) !important;
+    border: 2px solid rgba(255,255,255,0.5) !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+}
+
+.edit-profile-btn:hover, .close-profile-btn:hover {
+    background: rgba(255,255,255,1) !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+}
+
+/* Заголовок для секций активности */
+.profile-horizontal-scroll {
+    margin-top: 10px !important;
+}
+/* Увеличиваем высоту header для высокой аватарки */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Увеличили высоту с 200px до 250px */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Делаем аватарку ВЫШЕ чтобы была видна во всей красоте */
+.profile-avatar-dynamic {
+    position: absolute;
+    bottom: -100px; /* Увеличили с -75px до -100px */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    height: 200px; /* Увеличили высоту с 150px до 200px */
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3); /* Увеличили тень */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.profile-avatar-dynamic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic.collapsed {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    bottom: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Меньшая тень для маленькой аватарки */
+}
+
+.profile-avatar-dynamic.collapsed img {
+    border-radius: 50%;
+}
+
+/* Обновляем отступы контента чтобы компенсировать увеличенную аватарку */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -50px; /* Увеличили с -30px до -50px */
+    padding: 130px 15px 30px 15px; /* Увеличили верхний padding с 100px до 130px */
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+
+/* Красивый фон на всю аватарку (обновляем под новую высоту) */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Увеличиваем высоту header для полностью видимой аватарки */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 280px; /* Увеличили высоту до 280px */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Поднимаем аватарку ВЫШЕ чтобы она была ПОЛНОСТЬЮ ВИДНА */
+.profile-avatar-dynamic {
+    position: absolute;
+    bottom: -30px; /* ПОДНЯЛИ ВЫШЕ с -100px до -30px - теперь полностью видна! */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px); /* Немного уменьшили ширину для отступов */
+    height: 200px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15; /* Увеличили z-index чтобы была над фоном */
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+.profile-avatar-dynamic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic.collapsed {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    bottom: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-dynamic.collapsed img {
+    border-radius: 50%;
+}
+
+/* Обновляем отступы контента для новой высоты аватарки */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -30px; /* Уменьшили с -50px до -30px так как аватарка выше */
+    padding: 110px 15px 30px 15px; /* Уменьшили верхний padding с 130px до 110px */
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+
+/* Увеличиваем z-index для кнопок чтобы они были над аватаркой */
+.edit-profile-btn, .close-profile-btn {
+    z-index: 25 !important;
+    background: rgba(255,255,255,0.95) !important;
+    border: 2px solid rgba(255,255,255,0.5) !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+}
+
+.edit-profile-btn:hover, .close-profile-btn:hover {
+    background: rgba(255,255,255,1) !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
+}
+
+/* Красивый фон на всю аватарку (обновляем под новую высоту) */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+}
+/* ОЧЕНЬ ВЫСОКАЯ аватарка - на уровне с кнопками */
+.profile-avatar-dynamic-high {
+    position: absolute;
+    top: 80px; /* РАСПОЛОЖЕНА ВЫСОКО - НА УРОВНЕ С КНОПКАМИ */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    height: 180px; /* Немного уменьшили высоту для баланса */
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4); /* Увеличили тень для эффекта парения */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.profile-avatar-dynamic-high img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar-dynamic-high.collapsed {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-dynamic-high.collapsed img {
+    border-radius: 50%;
+}
+
+/* Уменьшаем высоту header так как аватарка теперь выше */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 220px; /* Уменьшили высоту так как аватарка выше */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Верхняя информация - ПОДНЯТА ВЫСОКО ПОД НАЧАЛО БЕЛОГО ФОНА */
+.profile-top-info {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-top: 0; /* Убрали отступ сверху */
+    margin-top: -10px; /* Поднимаем еще выше */
+}
+
+.profile-name {
+    margin-bottom: 8px !important;
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Стили для копируемого username */
+.username-copy {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(231, 76, 60, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.username-copy:hover {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: rgba(231, 76, 60, 0.3);
+    transform: scale(1.05);
+}
+
+.copy-hint {
+    font-size: 12px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.username-copy:hover .copy-hint {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.profile-bio {
+    color: #666;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.4;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+/* Обновляем отступы контента для новой структуры */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -10px; /* Уменьшили отступ так как аватарка выше */
+    padding: 60px 15px 30px 15px; /* Уменьшили верхний padding так как информация выше */
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+
+/* Красивый фон на всю аватарку (обновляем под новую высоту) */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Стили для кликабельных аватарок и имен */
+.clickable-avatar {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.clickable-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+}
+
+.clickable-username {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.clickable-username:hover {
+    color: #e74c3c;
+    transform: translateX(3px);
+}
+
+/* Стили для сообщений с аватарками отправителей */
+.message-sender-info {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.message-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.message-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+}
+
+.message-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.message-sender-name {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.message-sender-name:hover {
+    color: #e74c3c;
+    transform: translateX(2px);
+}
+
+.message-text {
+    word-wrap: break-word;
+}
+
+/* Стили для поиска */
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover {
+    background: #34495e;
+    transform: translateX(5px);
+}
+
+.search-result-item:hover .search-result-name {
+    color: #e74c3c;
+}
+
+.search-result-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover .search-result-avatar {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+}
+/* Стили для индикатора начала чата в поиске */
+.start-chat-indicator {
+    color: #e74c3c;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover .start-chat-indicator {
+    background: rgba(231, 76, 60, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Улучшаем стили поиска */
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #34495e;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover {
+    background: #34495e;
+    transform: translateX(5px);
+}
+
+.search-result-item:hover .search-result-name {
+    color: #e74c3c;
+}
+
+.search-result-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover .search-result-avatar {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.search-result-username {
+    font-size: 12px;
+    opacity: 0.8;
+    color: #3498db;
+}
+
+.search-result-phone {
+    font-size: 12px;
+    opacity: 0.7;
+}
+/* НОВАЯ СТРУКТУРА ИНФОРМАЦИИ ПРОФИЛЯ */
+.profile-info-new-format {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 25px;
+}
+
+/* Строка с меткой слева и значением справа */
+.profile-info-row-new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.profile-info-row-new:hover {
+    background: #f8f9fa;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+}
+
+.profile-info-label-new {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 14px;
+    min-width: 120px;
+}
+
+.profile-info-value-new {
+    color: #666;
+    font-size: 14px;
+    text-align: right;
+    flex: 1;
+    margin-left: 15px;
+}
+
+/* Секция "О себе" - полная ширина */
+.profile-info-section {
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-info-label-full {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.profile-info-value-full {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* Стили для кликабельных элементов */
+.clickable-phone, .clickable-id {
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.clickable-phone:hover, .clickable-id:hover {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    transform: translateX(-2px);
+}
+
+.copy-hint-small {
+    font-size: 10px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.clickable-phone:hover .copy-hint-small,
+.clickable-id:hover .copy-hint-small {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* Обновляем верхнюю информацию */
+.profile-top-info {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-top: 0;
+    margin-top: -10px;
+}
+
+.profile-name {
+    margin-bottom: 8px !important;
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.username-copy {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(231, 76, 60, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.username-copy:hover {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: rgba(231, 76, 60, 0.3);
+    transform: scale(1.05);
+}
+/* СУПЕР ВЫСОКАЯ АВАТАРКА - ПОЛНОСТЬЮ ВИДНА */
+.profile-avatar-dynamic-super-high {
+    position: absolute;
+    top: 60px; /* ЕЩЕ ВЫШЕ - на уровне с кнопками */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    height: 220px; /* УВЕЛИЧИЛИ ВЫСОТУ - теперь полностью видна */
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5); /* УСИЛИЛИ ТЕНЬ */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.profile-avatar-dynamic-super-high img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+/* СВЕРНУТОЕ СОСТОЯНИЕ - маленький круг */
+.profile-avatar-dynamic-super-high.collapsed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-dynamic-super-high.collapsed img {
+    border-radius: 50%;
+}
+
+/* ИМЯ РЯДОМ С АВАТАРКОЙ (ПОКАЗЫВАЕТСЯ ТОЛЬКО ПРИ СВЕРТЫВАНИИ) */
+.avatar-name-collapsed {
+    position: absolute;
+    top: 25px;
+    left: 80px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    z-index: 16;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
+}
+
+.avatar-name-collapsed.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Увеличиваем высоту header для супер высокой аватарки */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 240px; /* УВЕЛИЧИЛИ под новую высоту аватарки */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* ТЕКСТ ПОДНЯТ ЕЩЕ ВЫШЕ */
+.profile-top-info-super-high {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-top: 0;
+    margin-top: -20px; /* ПОДНЯЛИ ЕЩЕ ВЫШЕ */
+}
+
+.profile-name {
+    margin-bottom: 8px !important;
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.username-copy {
+    color: #666;
+    margin-bottom: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: rgba(231, 76, 60, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.username-copy:hover {
+    background: rgba(231, 76, 60, 0.2);
+    border-color: rgba(231, 76, 60, 0.3);
+    transform: scale(1.05);
+}
+
+/* Обновляем отступы контента */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: 0; /* УБРАЛИ отступ так как аватарка выше */
+    padding: 70px 15px 30px 15px; /* УВЕЛИЧИЛИ верхний padding */
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+/* АВАТАРКА - ЧУТЬ БОЛЬШЕ И ВЫШЕ */
+.profile-avatar-dynamic-super-high {
+    position: absolute;
+    top: 20px; /* ПОДНЯЛИ НА 40px ВВЕРХ (было 60px) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 30px);
+    height: 185px; /* УВЕЛИЧИЛИ НА 5px (было 180px) */
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.profile-avatar-dynamic-super-high img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+/* СВЕРНУТОЕ СОСТОЯНИЕ - маленький круг */
+.profile-avatar-dynamic-super-high.collapsed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-dynamic-super-high.collapsed img {
+    border-radius: 50%;
+}
+
+/* ГРАДИЕНТ - уменьшает высоту при свертывании */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 240px; /* Высота градиента */
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+    transition: all 0.3s ease; /* Добавляем анимацию */
+}
+
+/* При свертывании градиент уменьшает высоту */
+.profile-avatar-dynamic-super-high.collapsed ~ .profile-background {
+    height: 70px; /* Высота становится как у маленькой аватарки */
+}
+
+/* Уменьшаем высоту header так как аватарка выше */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 200px; /* УМЕНЬШИЛИ высоту (было 240px) */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Обновляем отступы контента */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: 0;
+    padding: 50px 15px 30px 15px; /* УМЕНЬШИЛИ верхний padding */
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+
+/* ИМЯ РЯДОМ С АВАТАРКОЙ */
+.avatar-name-collapsed {
+    position: absolute;
+    top: 25px;
+    left: 80px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    z-index: 16;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
+}
+
+.avatar-name-collapsed.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+/* АВАТАРКА БОЛЬШАЯ - НОВЫЕ РАЗМЕРЫ */
+.profile-avatar-dynamic-super-high {
+    position: absolute;
+    top: 7px; /* НОВАЯ ПОЗИЦИЯ */
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 10px); /* НОВАЯ ШИРИНА */
+    height: 185px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.profile-avatar-dynamic-super-high img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+/* СВЕРНУТОЕ СОСТОЯНИЕ - маленький круг */
+.profile-avatar-dynamic-super-high.collapsed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-dynamic-super-high.collapsed img {
+    border-radius: 50%;
+}
+
+/* ГРАДИЕНТ - УМЕНЬШАЕТСЯ ПРИ СКРОЛЛЕ */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 240px; /* Полная высота градиента */
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+    transition: height 0.3s ease; /* Анимация высоты */
+}
+
+/* КОГДА АВАТАРКА СВЕРНУТА - ГРАДИЕНТ УМЕНЬШАЕТСЯ */
+.profile-header-dynamic.collapsed .profile-background {
+    height: 70px; /* Чуть больше маленькой аватарки (50px + 20px) */
+}
+
+/* Обновляем JavaScript для управления классом header */
+/* Уменьшаем высоту header и делаем его фиксированной */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 70px; /* МАЛЕНЬКАЯ фиксированная высота */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 0;
+}
+
+/* Градиент всегда маленький */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* Всегда маленькая высота */
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+}
+
+/* Большая аватарка ВНУТРИ контента */
+.profile-avatar-dynamic-super-high {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: 200px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+    margin-bottom: 20px;
+}
+
+/* При скролле аватарка превращается и поднимается в header */
+.profile-avatar-dynamic-super-high.collapsed {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom: 0;
+}
+
+/* Контент поднимается ВПЛОТНУЮ к header */
+.profile-content-scroll {
+    background: white;
+    border-radius: 30px 30px 0 0;
+    margin-top: -30px; /* Поднимаем контент вплотную */
+    padding: 30px 15px 30px 15px;
+    min-height: calc(100vh - 270px);
+    position: relative;
+    z-index: 5;
+    overflow-y: auto !important;
+    max-height: calc(90vh - 200px);
+}
+/* Возвращаем как было - градиент большой изначально */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 240px; /* ИЗНАЧАЛЬНО БОЛЬШОЙ */
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+    transition: height 0.3s ease; /* Анимация высоты */
+}
+
+/* ПРИ СКРОЛЛЕ ВНИЗ градиент становится маленьким */
+.profile-header-dynamic.collapsed .profile-background {
+    height: 58px; /* Маленький градиент (50px аватарка + 8px) */
+}
+
+.profile-avatar-dynamic-super-high {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 10px);
+    height: 185px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+.profile-avatar-dynamic-super-high.collapsed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 10px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.profile-avatar-dynamic-super-high.collapsed img {
+    border-radius: 50%;
+}
+/* Header изначально большой */
+.profile-header-dynamic {
+    position: relative;
+    width: 100%;
+    height: 240px; /* Большая высота */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* При скролле header становится маленьким */
+.profile-header-dynamic.collapsed {
+    height: 70px; /* Маленькая высота */
+}
+
+/* Градиент изначально большой */
+.profile-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 240px; /* Большой градиент */
+    background: linear-gradient(135deg, 
+        #667eea 0%, 
+        #764ba2 20%, 
+        #f093fb 40%, 
+        #f5576c 60%, 
+        #4facfe 80%, 
+        #00f2fe 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    opacity: 0.9;
+    z-index: 5;
+    transition: height 0.3s ease;
+}
+
+/* При скролле градиент становится маленьким */
+.profile-header-dynamic.collapsed .profile-background {
+    height: 70px; /* Маленький градиент */
+}
+
+/* Аватарка большая */
+.profile-avatar-dynamic-super-high {
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 10px);
+    height: 185px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(255,255,255,0.4);
+}
+
+/* Аватарка маленькая при скролле */
+.profile-avatar-dynamic-super-high.collapsed {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 10px;
+    left: 20px;
+    transform: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Имя рядом с аватаркой при скролле */
+.avatar-name-collapsed {
+    position: absolute;
+    top: 25px;
+    left: 80px;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+    z-index: 16;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
+}
+
+.avatar-name-collapsed.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+/* Добавьте в конец styles.css */
+
+/* Стили для модального окна профиля */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+    background: #e9ecef;
+    color: #e74c3c;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 20px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 10px;
+    background: #f8f9fa;
+}
+
+/* Стили для профиля в модалке */
+.profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 48px;
+    font-weight: bold;
+    overflow: hidden;
+}
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #e74c3c;
+}
+
+.profile-field label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.profile-field span {
+    color: #666;
+    font-size: 16px;
+}
+
+/* Кнопки */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.btn-primary {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #bdc3c7;
+    color: #2c3e50;
+}
+
+.btn-secondary:hover {
+    background: #95a5a6;
+    transform: translateY(-2px);
+}
+
+/* Улучшенные стили для аватарок в чатах */
+.chat-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.chat-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e74c3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Стили для поиска */
+.search-result-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #3498db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.search-result-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-overlay {
+    animation: fadeIn 0.3s ease-out;
+}
+.sidebar-option-subtitle {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 2px;
+}
+/* Добавьте в конец файла */
+.send-button.test {
+    background: #3498db;
+}
+
+.send-button.test:hover {
+    background: #2980b9;
+}
+
+.test-notification-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    padding: 15px;
+    z-index: 1000;
+    max-width: 300px;
+}
+
+.test-notification {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.test-notification:last-child {
+    margin-bottom: 0;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.notification-title {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: #95a5a6;
+}
+
+.notification-body {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.notification-btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.notification-btn.primary {
+    background: #e74c3c;
+    color: white;
+}
+
+.notification-btn.secondary {
+    background: #bdc3c7;
+    color: #2c3e50;
+}
+
+.notification-btn:hover {
+    transform: translateY(-1px);
+}
